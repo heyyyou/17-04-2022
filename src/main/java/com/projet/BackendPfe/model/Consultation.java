@@ -24,23 +24,37 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 
 @Entity
 public class Consultation {
-	private String dateConsult;
-
+private LocalDate dateConsult;
+	//private  SimpleDateFormat dateFormat;
 	public long getId() {
 		return id;
 	}
+	
 	public void setId(long id) {
 		this.id = id;
 	}
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+	public Consultation(Generaliste generaliste, AutoDetection autoDetection) {
+		super();
+		this.generaliste = generaliste;
+		this.autoDetection = autoDetection;
+	}
 	@ManyToOne()
 	protected Generaliste generaliste;
+	public AutoDetection getAutoDetection() {
+		return autoDetection;
+	}
+	public void setAutoDetection(AutoDetection autoDetection) {
+		this.autoDetection = autoDetection;
+	}
 	@ManyToOne()
 	protected Expert expert;
 	@ManyToOne()
 	protected Patient patient;
+	@ManyToOne()
+	protected AutoDetection autoDetection;
 	@Column(name = "image1Droite", length = 1000000)
 	  protected byte[] image1_Droite;
 	  @Column(name = "image2Droite", length = 1000000)
@@ -137,8 +151,8 @@ public Consultation() {}
 	this.image4_Droite=image4_Droite;
 	this.image5_Droite=image5_Droite ; 
 }*/
-public Consultation(Generaliste generaliste,Expert expert,Patient patient,
-		byte[] image1_Gauche , byte[] image2_Gauche , byte[] image3_Gauche , byte[] image4_Gauche , byte[] image5_Gauche,byte[] image1_Droite , byte[] image2_Droite , byte[] image3_Droite , byte[] image4_Droite , byte[] image5_Droite,String dateConsult ) {
+public Consultation(Generaliste generaliste,Expert expert,Patient patient,LocalDate dateConsult,
+		byte[] image1_Gauche , byte[] image2_Gauche , byte[] image3_Gauche , byte[] image4_Gauche , byte[] image5_Gauche,byte[] image1_Droite , byte[] image2_Droite , byte[] image3_Droite , byte[] image4_Droite , byte[] image5_Droite ) {
 	super();
 	this.generaliste = generaliste;
 	this.patient = patient;
@@ -153,14 +167,17 @@ public Consultation(Generaliste generaliste,Expert expert,Patient patient,
 	this.image3_Droite=image3_Droite ; 
 	this.image4_Droite=image4_Droite;
 	this.image5_Droite=image5_Droite ; 
-	
+	this. dateConsult=dateConsult;
 }
-	public String getDateConsult() {
+
+	public LocalDate getDateConsult() {
 	return dateConsult;
 }
-public void setDateConsult(String dateConsult) {
+
+public void setDateConsult(LocalDate dateConsult) {
 	this.dateConsult = dateConsult;
 }
+
 	/*public Consultation(Generaliste generaliste, Patient patient, Expert expert  ,
 			byte[] image1_Droite , byte[] image2_Droite , byte[] image3_Droite , byte[] image4_Droite , byte[] image5_Droite) {
 		super();
@@ -202,7 +219,7 @@ public void setDateConsult(String dateConsult) {
 	public void setPatient(Patient patient) {
 		this.patient = patient;
 	}
-	
+
 	
 	/*@OneToMany(targetEntity=ImageConsultation.class, mappedBy = "consultation")
 	private List<ImageConsultation>liste1=new ArrayList<ImageConsultation>();*/

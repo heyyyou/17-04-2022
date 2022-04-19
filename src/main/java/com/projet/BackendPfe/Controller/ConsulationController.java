@@ -22,10 +22,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.projet.BackendPfe.model.AutoDetection;
 import com.projet.BackendPfe.model.Consultation;
 import com.projet.BackendPfe.model.Expert;
 import com.projet.BackendPfe.model.Generaliste;
 import com.projet.BackendPfe.model.Patient;
+import com.projet.BackendPfe.repository.AutoDetectionRepository;
 import com.projet.BackendPfe.repository.ConsultationRepository;
 import com.projet.BackendPfe.repository.ExpertRepository;
 import com.projet.BackendPfe.repository.GeneralisteRepository;
@@ -40,11 +42,12 @@ public class ConsulationController {
 	@Autowired PatientRepository patientRepository;
 	@Autowired ExpertRepository expertRepository;
 	@Autowired ConsultationService service ; 
-	
+	@Autowired AutoDetectionRepository pr ; 
+
 	
 	@PostMapping("/Consultations/{idGeneraliste}/{idPatient}")
 	public Consultation addConsultation(@PathVariable("idGeneraliste") long idGeneraliste , 
-			                                                                 @PathVariable("idPatient") long idPatient  ){
+			                                                                 @PathVariable("idPatient") long idPatient   ){
 		Generaliste  generaliste = medecinRepository.findById(idGeneraliste).get(); 
 		Patient patient = patientRepository.findById(idPatient).get() ; 
 		byte[] image1 = null ; 
@@ -58,14 +61,11 @@ public class ConsulationController {
 		byte[] image9 = null ; 
 		byte[] image10 = null ; 
 		Expert expert=null;
-		String pattern = "dd/MM/yyyy";
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-
-		String date = simpleDateFormat.format(new Date());
-		System.out.println("eeeeeeeeee"+date);
+		
+		 SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		
 
-		Consultation consultation = new Consultation(generaliste, expert, patient,image1,image2,image3,image4,image5,image6,image7,image8,image9,image10,date);
+		Consultation consultation = new Consultation(generaliste, expert, patient,LocalDate.now(),image1,image2,image3,image4,image5,image6,image7,image8,image9,image10);
 		repository.save(consultation) ;
 		return consultation ; 
 
@@ -146,27 +146,106 @@ public class ConsulationController {
 	}
 	
 	
-	@DeleteMapping("/deletepatients/{id}/{idConsultation}")
-	public void deleteProduct(@PathVariable("id") long id){
+	@DeleteMapping("/deleteConsult/{id}/{idConsultation}")
+	public void deleteProduct(@PathVariable("idConsultation") long idConsultation){
 		
 	
-		patientRepository.deleteById(id);
+		repository.deleteById(idConsultation);
 	} 
 	@GetMapping("/Consultations/{id}")
 	public List<Consultation> getAllProducts(@PathVariable("id") @ModelAttribute("id") long id){
          //pr.findById(id);
-		  
-		return repository.findAll();
-	} 
-	/*@GetMapping("/Consultation/{id}/{idConsultation}")
-	public Consultation getAllProductsbyid(@PathVariable("id") long id,@PathVariable("idConsultation") long idConsultation){
-		Consultation conster = repository.findById(idConsultation).get();
+	    return  repository.findByGeneraliste_id(id);
 
+	} 
+	@GetMapping("/Consultation/{id}/{idConsultation}/{idPatient}")
+	public Consultation getAllProductsbyid(@PathVariable("id") long id,@PathVariable("idConsultation") long idConsultation,@PathVariable("idPatient") long idPatient){
+		Consultation conster = repository.findById(idConsultation).get();
+		 if( conster.getImage1_Droite()== null) {
+			  return conster;
+		  }
+		  else {
+			    conster.setImage1_Droite(service.decompressZLib(conster.getImage1_Droite()));}	
+			    
+			    if( conster.getImage2_Droite()== null) {
+					  return conster;
+				  }
+				  else {
+					    conster.setImage2_Droite(service.decompressZLib(conster.getImage2_Droite()));	}
+		
+					    if( conster.getImage3_Droite()== null) {
+							  return conster;
+						  }
+						  else {
+							    conster.setImage3_Droite(service.decompressZLib(conster.getImage3_Droite()));	}
+				
+							    if( conster.getImage4_Droite()== null) {
+									  return conster;
+								  }
+								  else {
+									    conster.setImage4_Droite(service.decompressZLib(conster.getImage4_Droite()));	}
+									    
+									    if( conster.getImage5_Droite()== null) {
+											  return conster;
+										  }
+										  else {
+											    conster.setImage5_Droite(service.decompressZLib(conster.getImage5_Droite()));}
+									    
+									    
+									    
+									    
+									    
+											    
+											    if( conster.getImage1_Gauche()== null) {
+													  return conster;
+												  }
+												  else {
+													    conster.setImage1_Gauche(service.decompressZLib(conster.getImage1_Gauche()));}
+													    
+													    if( conster.getImage2_Gauche()== null) {
+															  return conster;
+														  }
+														  else {
+															    conster.setImage2_Gauche(service.decompressZLib(conster.getImage2_Gauche()));}
+															    
+															    if( conster.getImage3_Gauche()== null) {
+																	  return conster;
+																  }
+																  else {
+																	    conster.setImage3_Gauche(service.decompressZLib(conster.getImage3_Gauche()));	}
+														
+																	    if( conster.getImage4_Gauche()== null) {
+																			  return conster;
+																		  }
+																		  else {
+																			    conster.setImage4_Gauche(service.decompressZLib(conster.getImage4_Gauche()));	}
+																			    
+																			    if( conster.getImage5_Gauche()== null) {
+																					  return conster;
+																				  }
+																				  else {
+																					    conster.setImage5_Gauche(service.decompressZLib(conster.getImage5_Gauche()));	}
+																		
+																
+												
+										
+						
 		return conster;
 		  
 		
-	}*/
+	}
+	// input id de Auto detection dans consultation
 	
+	
+	@PutMapping("/editAuto/{idGeneraliste}/{idConsult}/{idAutoDetection}")
+	public String updateID(@PathVariable("idGeneraliste") long idGeneraliste,@PathVariable("idConsult") long idConsult,  @PathVariable("idAutoDetection") long idAutoDetection) {
+	Consultation consultation = repository.findById(idConsult).get();
+		AutoDetection autp =pr.findById(idAutoDetection).get();
+           consultation.setAutoDetection(autp);
+		repository.save(consultation);
+		return "Done pour changement ID  !!!!" ; 
+	}
+}
 	/*
 	 public void AddProduct(@PathVariable("id") long id ,@PathVariable("cin") long cin  ){
 		Generaliste gen = pr1.findById(id).get();
@@ -176,4 +255,4 @@ public class ConsulationController {
 		
 		pr.save(data);
 	}*/
-}
+	
