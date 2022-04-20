@@ -70,6 +70,30 @@ public class ConsulationController {
 		return consultation ; 
 
 	}
+	//deleteAll Pictures 
+	@PutMapping("consultation/picturesD/{id}/{idConsultation}")
+	public void deleteConsult(@PathVariable("id") long id, @PathVariable("idConsultation") long idConsultation){
+		 Consultation consult =repository.findById(idConsultation).get();
+		 consult.setImage1_Droite(null);
+		 consult.setImage2_Droite(null);
+		 consult.setImage3_Droite(null);
+		 consult.setImage4_Droite(null);
+		 consult.setImage5_Droite(null);
+		 repository.save(consult);
+
+	}
+	@PutMapping("consultation/picturesG/{id}/{idConsultation}")
+	public void deleteConsultG(@PathVariable("id") long id, @PathVariable("idConsultation") long idConsultation){
+		 Consultation consult =repository.findById(idConsultation).get();
+		 consult.setImage1_Gauche(null);
+		 consult.setImage2_Gauche(null);
+		 consult.setImage3_Gauche(null);
+		 consult.setImage4_Gauche(null);
+		 consult.setImage5_Gauche(null);
+		 repository.save(consult);
+
+	}
+
 	// put for expert baed f avis demander 
 	
 	@PutMapping("SendConsultation/{idConsultation}/{idExpert}")
@@ -158,6 +182,14 @@ public class ConsulationController {
 	    return  repository.findByGeneraliste_id(id);
 
 	} 
+	@GetMapping("/Consultation/{id}/{idPatient}")
+	public List<Consultation> getConsultationsByPatient (@PathVariable("id") long id ,@PathVariable ("idPatient") long idPatient){
+	
+    return repository.findByPatient_cinAndGeneraliste_id(idPatient,id);		 
+		
+	}
+	
+	
 	@GetMapping("/Consultation/{id}/{idConsultation}/{idPatient}")
 	public Consultation getAllProductsbyid(@PathVariable("id") long id,@PathVariable("idConsultation") long idConsultation,@PathVariable("idPatient") long idPatient){
 		Consultation conster = repository.findById(idConsultation).get();

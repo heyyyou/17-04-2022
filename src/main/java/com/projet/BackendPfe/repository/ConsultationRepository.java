@@ -13,5 +13,7 @@ import com.projet.BackendPfe.model.Patient;
 @Repository
 public interface ConsultationRepository extends JpaRepository<Consultation,Long> {
 	public List<Consultation> findByGeneraliste_id(@ModelAttribute("id") long id);
+public List<Consultation> findByPatient_cinAndGeneraliste_id(long id, long cin);
+public Consultation findByIdAndGeneraliste_id(long id, long id1);
 
 }

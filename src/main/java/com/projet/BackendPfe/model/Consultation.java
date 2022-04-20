@@ -24,6 +24,11 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 
 @Entity
 public class Consultation {
+public Consultation(Generaliste generaliste, Patient patient) {
+		super();
+		this.generaliste = generaliste;
+		this.patient = patient;
+	}
 private LocalDate dateConsult;
 	//private  SimpleDateFormat dateFormat;
 	public long getId() {

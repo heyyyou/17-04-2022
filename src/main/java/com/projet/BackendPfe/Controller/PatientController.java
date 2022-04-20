@@ -23,6 +23,8 @@ import com.projet.BackendPfe.model.Generaliste;
 import com.projet.BackendPfe.model.Patient;
 import com.projet.BackendPfe.repository.GeneralisteRepository;
 import com.projet.BackendPfe.repository.PatientRepository;
+import com.projet.BackendPfe.request.PatientRequest;
+import com.projet.BackendPfe.request.RegisterRequestExpert;
 import com.projet.BackendPfe.services.IGestionPatient;
 import com.projet.BackendPfe.services.PatientService;
 
@@ -32,7 +34,8 @@ import com.projet.BackendPfe.services.PatientService;
 @RequestMapping("/api")
 public class PatientController {
 	
-	
+	@Autowired GeneralisteRepository medecinRepository;
+
 	@Autowired
 	IGestionPatient gestionPatient;
 	@Autowired
@@ -65,9 +68,11 @@ public class PatientController {
 			  }
 	}*/
 	
-	@PostMapping("/addpatient")
-	public void AddProduct(@RequestBody Patient p ){
-		gestionPatient.addPatient(p);
+	@PostMapping("/addpatient/{id}")
+	public void AddProduct(@RequestBody PatientRequest patient , @PathVariable("id") @ModelAttribute("id") long id ){
+		Generaliste  generaliste = medecinRepository.findById(id).get(); 
+		Patient p = new Patient(patient.getCin(),patient.getUsername(),patient.getEmail(),patient.getTelephone(),patient.getGender(),patient.getDateNaiss(),patient.getAntecedant(),generaliste);
+		pr.save(p);
 	}
 	
 	

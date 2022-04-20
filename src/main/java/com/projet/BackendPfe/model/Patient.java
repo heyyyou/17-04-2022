@@ -19,6 +19,20 @@ import javax.validation.constraints.Size;
 
 public class Patient {
 
+	public Patient(long cin, @NotBlank @Size(max = 100) String username, @NotBlank @Size(max = 100) @Email String email,
+			long telephone, String gender, String dateNaiss, String antecedant,
+			Generaliste generaliste) {
+		super();
+		this.cin = cin;
+		this.username = username;
+		this.email = email;
+		this.telephone = telephone;
+		this.gender = gender;
+		this.dateNaiss = dateNaiss;
+		this.antecedant = antecedant;
+	
+		this.generaliste = generaliste;
+	}
 	public void setTelephone(long telephone) {
 		this.telephone = telephone;
 	}
