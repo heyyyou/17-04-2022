@@ -11,6 +11,13 @@ public class RegisterRequestGeneraliste {
 		private String gender ;
 		private byte[] image ; 
 		private long telephone ; 
+	private 	String specialite;
+		public String getSpecialite() {
+		return specialite;
+	}
+	public void setSpecialite(String specialite) {
+		this.specialite = specialite;
+	}
 		@NotBlank
 	    private String username;
 	    @NotBlank

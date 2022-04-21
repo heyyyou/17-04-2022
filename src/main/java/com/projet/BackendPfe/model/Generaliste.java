@@ -20,6 +20,14 @@ public class Generaliste extends User {
 
 	private String gender ;
 	private long telephone;
+	private String specialite;
+	public String getSpecialite() {
+		return specialite;
+	}
+	public void setSpecialite(String specialite) {
+		this.specialite = specialite;
+	}
+
 	@OneToMany(targetEntity=Consultation.class, mappedBy = "generaliste",fetch=FetchType.LAZY)
 	
 	private List<Patient>liste=new ArrayList<Patient>();
@@ -27,10 +35,11 @@ public class Generaliste extends User {
 	@OneToMany(targetEntity=Consultation.class, mappedBy = "generaliste",fetch=FetchType.LAZY)
 	private List<Consultation>liste1=new ArrayList<Consultation>();
 	  
-	 public Generaliste(String username, String email, String password, String gender, long telephone , byte[] image , LocalDate date_inscription  , String role  ) {
+	 public Generaliste(String username, String email, String password, String gender, long telephone , byte[] image , LocalDate date_inscription  , String role ,String specialite ) {
 			super(username,email,password,image , date_inscription , role );
 			this.gender=gender;
 			this.telephone=telephone;
+			this.specialite=specialite;
 		
 		} 
 	 public Generaliste(byte[]image) {

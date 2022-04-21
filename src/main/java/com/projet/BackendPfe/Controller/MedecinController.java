@@ -95,7 +95,7 @@ public class MedecinController {
 							 encoder.encode(signUpRequest.getPassword()),
 									 signUpRequest.getGender(),
 									 signUpRequest.getTelephone(),
-									 signUpRequest.getImage() , LocalDate.now() , "generaliste");
+									 signUpRequest.getImage() , LocalDate.now() , "generaliste", signUpRequest.getSpecialite());
 		genRepository.save(user);
 
 		return ResponseEntity.ok(new Message("User registered successfully!"));

@@ -60,12 +60,12 @@ public class ConsulationController {
 		byte[] image8 = null ; 
 		byte[] image9 = null ; 
 		byte[] image10 = null ; 
-		Expert expert=null;
+		
 		
 		 SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		
 
-		Consultation consultation = new Consultation(generaliste, expert, patient,LocalDate.now(),image1,image2,image3,image4,image5,image6,image7,image8,image9,image10);
+		Consultation consultation = new Consultation(generaliste, patient,LocalDate.now(),image1,image2,image3,image4,image5,image6,image7,image8,image9,image10);
 		repository.save(consultation) ;
 		return consultation ; 
 
@@ -96,7 +96,7 @@ public class ConsulationController {
 
 	// put for expert baed f avis demander 
 	
-	@PutMapping("SendConsultation/{idConsultation}/{idExpert}")
+	/*@PutMapping("SendConsultation/{idConsultation}/{idExpert}")
 	public Consultation EnvoyerConultationAunExpert(@PathVariable("idConsultation") long idConsultation , 
 			                                                                                               @PathVariable("idExpert") long idExpert) {
 		Consultation consultation = repository.findById(idConsultation).get() ;
@@ -104,7 +104,7 @@ public class ConsulationController {
 	   consultation.setExpert(expert);
 	   repository.save(consultation) ;
 	   return consultation ; 
-	}
+	}/*
 	/***********Oeil Droite *************/
 	
 	@PutMapping("/addimage1D/{idConsultation}")
@@ -182,12 +182,18 @@ public class ConsulationController {
 	    return  repository.findByGeneraliste_id(id);
 
 	} 
-	@GetMapping("/Consultation/{id}/{idPatient}")
+	@GetMapping("/Consultation/{id}/{idPatient}") // hehdy pour lien de consultation pour chaque patient
 	public List<Consultation> getConsultationsByPatient (@PathVariable("id") long id ,@PathVariable ("idPatient") long idPatient){
 	
     return repository.findByPatient_cinAndGeneraliste_id(idPatient,id);		 
 		
 	}
+	@GetMapping("/Consultations") // hdhy st79itha f expert avis 
+ 	public List<Consultation> getAllConsultation(){
+         //pr.findById(id);
+	    return  repository.findAll();
+
+	} 
 	
 	
 	@GetMapping("/Consultation/{id}/{idConsultation}/{idPatient}")
@@ -277,6 +283,14 @@ public class ConsulationController {
 		repository.save(consultation);
 		return "Done pour changement ID  !!!!" ; 
 	}
+	@PutMapping("/demanderAvis/{idGeneraliste}/{idConsult}")
+	public String udemanderAvisID(@PathVariable("idGeneraliste") long idGeneraliste,@PathVariable("idConsult") long idConsult) {
+	Consultation consultation = repository.findById(idConsult).get();
+           consultation.setDemandeAvis(1);
+		repository.save(consultation);
+		return "Done pour changement ID  !!!!" ; 
+	}
+	
 }
 	/*
 	 public void AddProduct(@PathVariable("id") long id ,@PathVariable("cin") long cin  ){

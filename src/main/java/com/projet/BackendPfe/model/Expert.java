@@ -15,12 +15,13 @@ import javax.persistence.OneToMany;
 @DiscriminatorValue(value="Expert")
 
 public class Expert extends User {
+@OneToMany(targetEntity=AvisExpert.class, mappedBy = "expert",fetch=FetchType.LAZY)
+	private List<AvisExpert>liste=new ArrayList<AvisExpert>();
 	protected String gender ;
 	protected long telephone ;
 	@ManyToOne
 	private AdminMedicalManager admin;
-	 @OneToMany(targetEntity=Consultation.class, mappedBy = "expert",fetch=FetchType.LAZY)
-		private List<Consultation>liste1=new ArrayList<Consultation>();
+	
 	public Expert( String username, String email, String password, 
 			String gender, long telephone , byte[] image, LocalDate date_inscription , String role   ) {
 		super(username,email,password,image , date_inscription , role );

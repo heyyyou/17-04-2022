@@ -24,6 +24,41 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 
 @Entity
 public class Consultation {
+	private int demandeAvis;
+public int getDemandeAvis() {
+		return demandeAvis;
+	}
+
+	public void setDemandeAvis(int demandeAvis) {
+		this.demandeAvis = demandeAvis;
+	}
+
+	public Consultation(int demandeAvis, LocalDate dateConsult, Generaliste generaliste, Patient patient,
+			AutoDetection autoDetection, byte[] image1_Droite, byte[] image2_Droite, byte[] image3_Droite,
+			byte[] image4_Droite, byte[] image5_Droite, byte[] image1_Gauche, byte[] image2_Gauche,
+			byte[] image3_Gauche, byte[] image4_Gauche, byte[] image5_Gauche) {
+		super();
+		this.demandeAvis = demandeAvis;
+		this.dateConsult = dateConsult;
+		this.generaliste = generaliste;
+		this.patient = patient;
+		this.autoDetection = autoDetection;
+		this.image1_Droite = image1_Droite;
+		this.image2_Droite = image2_Droite;
+		this.image3_Droite = image3_Droite;
+		this.image4_Droite = image4_Droite;
+		this.image5_Droite = image5_Droite;
+		this.image1_Gauche = image1_Gauche;
+		this.image2_Gauche = image2_Gauche;
+		this.image3_Gauche = image3_Gauche;
+		this.image4_Gauche = image4_Gauche;
+		this.image5_Gauche = image5_Gauche;
+	}
+
+	public Generaliste getGeneraliste() {
+		return generaliste;
+	}
+
 public Consultation(Generaliste generaliste, Patient patient) {
 		super();
 		this.generaliste = generaliste;
@@ -54,12 +89,13 @@ private LocalDate dateConsult;
 	public void setAutoDetection(AutoDetection autoDetection) {
 		this.autoDetection = autoDetection;
 	}
-	@ManyToOne()
-	protected Expert expert;
+
 	@ManyToOne()
 	protected Patient patient;
 	@ManyToOne()
 	protected AutoDetection autoDetection;
+	@ManyToOne()
+	protected AvisExpert avisExpert;
 	@Column(name = "image1Droite", length = 1000000)
 	  protected byte[] image1_Droite;
 	  @Column(name = "image2Droite", length = 1000000)
@@ -156,12 +192,12 @@ public Consultation() {}
 	this.image4_Droite=image4_Droite;
 	this.image5_Droite=image5_Droite ; 
 }*/
-public Consultation(Generaliste generaliste,Expert expert,Patient patient,LocalDate dateConsult,
+public Consultation(Generaliste generaliste,Patient patient,LocalDate dateConsult,
 		byte[] image1_Gauche , byte[] image2_Gauche , byte[] image3_Gauche , byte[] image4_Gauche , byte[] image5_Gauche,byte[] image1_Droite , byte[] image2_Droite , byte[] image3_Droite , byte[] image4_Droite , byte[] image5_Droite ) {
 	super();
 	this.generaliste = generaliste;
 	this.patient = patient;
-	this.expert=expert;
+
 	this.image1_Gauche=image1_Gauche ; 
 	this.image2_Gauche=image2_Gauche ; 
 	this.image3_Gauche=image3_Gauche ; 
@@ -212,12 +248,7 @@ public void setDateConsult(LocalDate dateConsult) {
 	public void setGeneraliste(Generaliste generaliste) {
 		this.generaliste = generaliste;
 	}
-	public Expert getExpert() {
-		return expert;
-	}
-	public void setExpert(Expert expert) {
-		this.expert = expert;
-	}
+
 	public Patient getPatient() {
 		return patient;
 	}
