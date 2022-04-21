@@ -41,6 +41,9 @@ public class AvisExpert {
 	public void setExpert(Expert expert) {
 		this.expert = expert;
 	}
+	public AvisExpert() {
+		super();
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

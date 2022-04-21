@@ -23,11 +23,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.projet.BackendPfe.model.AutoDetection;
+import com.projet.BackendPfe.model.AvisExpert;
 import com.projet.BackendPfe.model.Consultation;
 import com.projet.BackendPfe.model.Expert;
 import com.projet.BackendPfe.model.Generaliste;
 import com.projet.BackendPfe.model.Patient;
 import com.projet.BackendPfe.repository.AutoDetectionRepository;
+import com.projet.BackendPfe.repository.AvisExpertRepository;
 import com.projet.BackendPfe.repository.ConsultationRepository;
 import com.projet.BackendPfe.repository.ExpertRepository;
 import com.projet.BackendPfe.repository.GeneralisteRepository;
@@ -43,8 +45,7 @@ public class ConsulationController {
 	@Autowired ExpertRepository expertRepository;
 	@Autowired ConsultationService service ; 
 	@Autowired AutoDetectionRepository pr ; 
-
-	
+    @Autowired AvisExpertRepository avis; 
 	@PostMapping("/Consultations/{idGeneraliste}/{idPatient}")
 	public Consultation addConsultation(@PathVariable("idGeneraliste") long idGeneraliste , 
 			                                                                 @PathVariable("idPatient") long idPatient   ){
@@ -62,7 +63,6 @@ public class ConsulationController {
 		byte[] image10 = null ; 
 		
 		
-		 SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		
 
 		Consultation consultation = new Consultation(generaliste, patient,LocalDate.now(),image1,image2,image3,image4,image5,image6,image7,image8,image9,image10);
@@ -70,6 +70,21 @@ public class ConsulationController {
 		return consultation ; 
 
 	}
+	
+	
+	@PutMapping("consultation/{idAvisExpert}/{idConsultation}") //updateIDAvis expert f classe mtaa consultation wa9teh ?
+	//wa9teli naamlu post l avis Expert ;) 
+	public void updateIdAvisExpert(@PathVariable("idAvisExpert") long idAvisExpert, @PathVariable("idConsultation") long idConsultation ){
+		 Consultation consult =repository.findById(idConsultation).get();
+	AvisExpert avisExpert = avis.findById(idAvisExpert).get(); 
+		 consult.setAvisExpert(avisExpert);
+		 repository.save(consult);
+
+	}
+	
+	
+	
+	
 	//deleteAll Pictures 
 	@PutMapping("consultation/picturesD/{id}/{idConsultation}")
 	public void deleteConsult(@PathVariable("id") long id, @PathVariable("idConsultation") long idConsultation){

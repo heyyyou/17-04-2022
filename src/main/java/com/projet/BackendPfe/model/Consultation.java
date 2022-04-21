@@ -24,6 +24,14 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 
 @Entity
 public class Consultation {
+
+	public AvisExpert getAvisExpert() {
+		return avisExpert;
+	}
+
+	public void setAvisExpert(AvisExpert avisExpert) {
+		this.avisExpert = avisExpert;
+	}
 	private int demandeAvis;
 public int getDemandeAvis() {
 		return demandeAvis;
@@ -193,7 +201,26 @@ public Consultation() {}
 	this.image5_Droite=image5_Droite ; 
 }*/
 public Consultation(Generaliste generaliste,Patient patient,LocalDate dateConsult,
-		byte[] image1_Gauche , byte[] image2_Gauche , byte[] image3_Gauche , byte[] image4_Gauche , byte[] image5_Gauche,byte[] image1_Droite , byte[] image2_Droite , byte[] image3_Droite , byte[] image4_Droite , byte[] image5_Droite ) {
+		byte[] image1_Gauche , byte[] image2_Gauche , byte[] image3_Gauche , byte[] image4_Gauche , byte[] image5_Gauche,byte[] image1_Droite , byte[] image2_Droite , byte[] image3_Droite , byte[] image4_Droite , byte[] image5_Droite ,AvisExpert avisExpert) {
+	super();
+	this.generaliste = generaliste;
+	this.patient = patient;
+
+	this.image1_Gauche=image1_Gauche ; 
+	this.image2_Gauche=image2_Gauche ; 
+	this.image3_Gauche=image3_Gauche ; 
+	this.image4_Gauche=image4_Gauche;
+	this.image5_Gauche=image5_Gauche ; 
+	this.image1_Droite=image1_Droite ; 
+	this.image2_Droite=image2_Droite ; 
+	this.image3_Droite=image3_Droite ; 
+	this.image4_Droite=image4_Droite;
+	this.image5_Droite=image5_Droite ; 
+	this. dateConsult=dateConsult;
+	this.avisExpert=avisExpert;
+}
+public Consultation(Generaliste generaliste,Patient patient,LocalDate dateConsult,
+		byte[] image1_Gauche , byte[] image2_Gauche , byte[] image3_Gauche , byte[] image4_Gauche , byte[] image5_Gauche,byte[] image1_Droite , byte[] image2_Droite , byte[] image3_Droite , byte[] image4_Droite , byte[] image5_Droite) {
 	super();
 	this.generaliste = generaliste;
 	this.patient = patient;
@@ -210,6 +237,9 @@ public Consultation(Generaliste generaliste,Patient patient,LocalDate dateConsul
 	this.image5_Droite=image5_Droite ; 
 	this. dateConsult=dateConsult;
 }
+
+
+
 
 	public LocalDate getDateConsult() {
 	return dateConsult;
